@@ -8,20 +8,16 @@ public class Event
     public int EventId {  get; set; }
 
     [Required]
-    [Unique]
     public  string Name{ get; set; }
 
-    [Range(1,int.MaxValue,ErrorMessage="Total Seats must be greater than zero")] 
+    [Required,Range(1,int.MaxValue,ErrorMessage="Total Seats must be greater than zero")] 
     public int TotalSeats{ get; set; }
 
-    public DateTime Date{ get;}
+    [Required]
+    public DateTime Date{ get; set; }
+
+    [Required]
     public DateTime CreatedAt { get; set; }
 
-    public void setDate(DateTime dt)
-    {
-        if (dt > DateTime.Now)
-            Date = dt;
-        else
-            throw Exception("Event must be in the future");
-    }
+    
 }
