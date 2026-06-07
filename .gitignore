@@ -1,0 +1,28 @@
+## .NET
+bin/
+obj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+## SQLite database file
+*.db
+*.db-shm
+*.db-wal
+
+## Visual Studio
+.vs/
+*.rsuser
+*.MsBuild.Binlog
+
+## Rider
+.idea/
+
+## OS
+.DS_Store
+Thumbs.db
+
+## Environment
+.env
+appsettings.Development.json
