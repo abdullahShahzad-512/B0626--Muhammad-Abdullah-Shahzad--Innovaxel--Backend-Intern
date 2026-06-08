@@ -1,5 +1,7 @@
 using EventRegistrationAPI.Data;
 using Microsoft.EntityFrameworkCore;
+using EventRegistrationAPI.Repositories.Interfaces;
+using EventRegistrationAPI.Repositories.Implementations;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +10,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddScoped<IEventRepository, EventRepository>();
+builder.Services.AddScoped<IRegistrationRepository, RegistrationRepository>();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
