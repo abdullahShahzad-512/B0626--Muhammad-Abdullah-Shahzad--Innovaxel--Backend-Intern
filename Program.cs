@@ -1,7 +1,9 @@
 using EventRegistrationAPI.Data;
-using Microsoft.EntityFrameworkCore;
-using EventRegistrationAPI.Repositories.Interfaces;
 using EventRegistrationAPI.Repositories.Implementations;
+using EventRegistrationAPI.Repositories.Interfaces;
+using EventRegistrationAPI.Services.Implementations;
+using EventRegistrationAPI.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +15,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddScoped<IEventRepository, EventRepository>();
 builder.Services.AddScoped<IRegistrationRepository, RegistrationRepository>();
+builder.Services.AddScoped<IEventService, EventService>();
+builder.Services.AddScoped<IRegistrationService, RegistrationService>();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
