@@ -1,4 +1,5 @@
 ﻿using EventRegistrationAPI.DTOs.EventDTOs;
+using EventRegistrationAPI.Exceptions;
 using EventRegistrationAPI.Repositories.Interfaces;
 using EventRegistrationAPI.Services.Interfaces;
 using System.Diagnostics.Eventing.Reader;
@@ -20,7 +21,7 @@ namespace EventRegistrationAPI.Services.Implementations
         {
            bool isExist= await _eventRepository.ExistsAsync(dto.Name);
             if (isExist)
-                throw new Exception("Name of Event must be unique");
+                throw new ConflictException("Name of Event must be unique");
             if (dto.Date <= DateTime.Now)
                 throw new Exception("Event must be in future");
             Event ev=new Event { Name=dto.Name ,

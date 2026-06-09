@@ -1,5 +1,6 @@
 ﻿using EventRegistrationAPI.Data;
 using EventRegistrationAPI.DTOs.RegistrationDTOs;
+using EventRegistrationAPI.Exceptions;
 using EventRegistrationAPI.Repositories.Interfaces;
 using EventRegistrationAPI.Services.Interfaces;
 
@@ -23,9 +24,9 @@ namespace EventRegistrationAPI.Services.Implementations
         {
             var reg = await _registrationRepository.GetByIdAsync(registrationId);
             if (reg == null)
-                throw new Exception("Registration not found");
+                throw new NotFoundException("Registration not found");
             if (reg.isCancelled)
-                throw new Exception("Registration is already Cacncelled");
+                throw new ConflictException("Registration is already Cacncelled");
 
             using var transaction = await _context.Database.BeginTransactionAsync();
             try
@@ -52,16 +53,16 @@ namespace EventRegistrationAPI.Services.Implementations
         public async Task<RegistrationResponseDTO> RegisterAsync(CreateRegistrationDTO dto)
         {
             var ev = await _eventRepository.GetByIdAsync(dto.EventId);
-            if (ev == null) 
-                throw new Exception("Event not found");
+            if (ev == null)
+                throw new NotFoundException("Event not found");
 
             var existing = await _registrationRepository.GetAsync(dto.Username, ev);
             if (existing != null && !existing.isCancelled)
-                throw new Exception("User already registered");
+                throw new ConflictException("User already registered");
 
             var activeRegs = await _registrationRepository.GetAllActiveAsync(dto.EventId);
             if (activeRegs.Count() >= ev.TotalSeats)
-                throw new Exception("Event is full");
+                throw new ConflictException("Event is full");
             var reg = new Registration
             {
                 EventId = dto.EventId,
