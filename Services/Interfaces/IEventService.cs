@@ -1,12 +1,12 @@
-﻿using System;
-namespace EventRegistrationAPI.Repositories.Interfaces
+﻿using EventRegistrationAPI.DTOs.EventDTOs;
+using System;
+namespace EventRegistrationAPI.Services.Interfaces
 {
-    public interface IEventRepository
+    public interface IEventService
     {
-        Task<IEnumerable<Event>> GetAllAsync();
-        Task<Event?> GetByIdAsync(int id);
-        Task AddAsync(Event ev);
-        Task<bool> ExistsAsync(string name);
-        Task SaveChangesAsync();
+        Task<EventResponseDTO> CreateEventAsync(CreateEventDTO dto);
+
+         Task<IEnumerable<EventResponseDTO>> GetAllEventsAsync(bool upcomingOnly, bool sortByDate);
+
     }
 }
